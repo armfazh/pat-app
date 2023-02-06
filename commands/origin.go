@@ -41,7 +41,7 @@ var (
 	privateTokenType = "PrivateToken"
 
 	// Test resource to load upon token success
-	testResource = "https://tfpauly.github.io/privacy-proxy/draft-privacypass-rate-limit-tokens.html"
+	testResource = "https://privacypass.github.io/"
 )
 
 type Origin struct {
@@ -119,6 +119,10 @@ func (o Origin) CreateChallenge(req *http.Request) (string, string) {
 	log.Debugln("Adding challenge context", contextEnc)
 
 	return base64.URLEncoding.EncodeToString(challengeEnc), tokenKey
+}
+
+func (o Origin) handleIcon(w http.ResponseWriter, req *http.Request) {
+	http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 }
 
 func (o Origin) handleRequest(w http.ResponseWriter, req *http.Request) {
@@ -235,6 +239,7 @@ func (o Origin) handleRequest(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-type", "text/html")
 	w.Write(body)
 }
 
@@ -322,6 +327,7 @@ func startOrigin(c *cli.Context) error {
 	}
 
 	http.HandleFunc("/", origin.handleRequest)
+	http.HandleFunc("/favicon.ico", origin.handleIcon)
 	err = http.ListenAndServeTLS(":"+port, cert, key, nil)
 	if err != nil {
 		log.Fatal("ListenAndServeTLS: ", err)

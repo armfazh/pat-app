@@ -24,9 +24,9 @@ $ make secrets certs
 Append the following rules to the /etc/hosts file to ensure that queries for test issuer, origin, and attester all resolve to localhost.
 
 ```
-127.0.0.1 issuer.example 
-127.0.0.1 origin.example 
-127.0.0.1 attester.example 
+127.0.0.1 issuer.example
+127.0.0.1 origin.example
+127.0.0.1 attester.example
 ```
 
 ### Configuring services
@@ -34,7 +34,7 @@ Append the following rules to the /etc/hosts file to ensure that queries for tes
 The services must be started in the following order: Issuer, Origin, and Attester. Sample commands for starting each are below.
 
 ```
-$ ./pat-app issuer --cert issuer.example+3.pem --key issuer.example+3-key.pem --port 4567 --origins origin.example:4568
+$ ./pat-app issuer --cert issuer.example+3.pem --key issuer.example+3-key.pem --port 4567 --origins origin.example:4568 --name issuer.example:4567 
 $ ./pat-app origin --cert origin.example+3.pem --key origin.example+3-key.pem --port 4568 --issuer issuer.example:4567 --name origin.example:4568
 $ ./pat-app attester --cert attester.example+3.pem --key attester.example+3-key.pem --port 4569
 ```

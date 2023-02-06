@@ -256,9 +256,11 @@ func runClientFetch(c *cli.Context) error {
 		log.Fatal("Invalid token count. See README for running instructions.")
 	}
 
+	log.SetOutput(os.Stdout)
 	switch logLevel {
 	case "debug":
 		log.SetLevel(log.DebugLevel)
+		break
 	case "info":
 		log.SetLevel(log.InfoLevel)
 	}
@@ -427,7 +429,8 @@ func runClientFetch(c *cli.Context) error {
 			return err
 		}
 
-		fmt.Println(string(body))
+		fmt.Println("body was fetched!!")
+		fmt.Println(string(body[0:10]))
 
 		if store != "" {
 			log.Debugln("Writing TokenStore to", store)
